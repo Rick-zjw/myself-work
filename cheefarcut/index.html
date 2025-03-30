@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>磨刀器众筹页面</title>
+</head>
+
+<body>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+    </style>
+    <style>
+        .cut-mtp {
+            margin-top: 24px;
+        }
+
+        .cut-header {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            font-family: Assistant;
+        }
+
+        .cut-video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .cut-header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 48px;
+            z-index: 2;
+            display: flex;
+            width: 100%;
+            gap: 70px;
+        }
+
+        .cut-header-none {
+            max-width: 490px;
+            flex: 1;
+        }
+
+        .cut-header-word {
+            max-width: 650px;
+        }
+
+        .cut-header-word-subtitle,
+        .cut-header-word-id,
+        .cut-header-word-price .cut-price-left p,
+        .cut-header-word-price .cut-price-right {
+            background: linear-gradient(103deg, #8BCEFF 0%, #FFD5BB 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-style: normal;
+            line-height: 125%;
+        }
+
+        .cut-header-word-subtitle {
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        .cut-header-word-title {
+            color: #FBCB05;
+            font-size: 48px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 125%;
+        }
+
+        .cut-header-word-id {
+            font-size: 22px;
+            font-weight: 300;
+        }
+
+        .cut-header-word-del {
+            display: flex;
+            color: #FFF;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .cut-header-word-item {
+            max-width: calc(33.33% - 8px);
+        }
+
+        .cut-header-word-del .cut-svg {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            border: 1.471px solid #715B57;
+            background: linear-gradient(180deg, #080607 0%, #594C44 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cut-header-word-del-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 9px;
+        }
+
+        .cut-header-word-del-top p {
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 800;
+            line-height: 125%;
+        }
+
+        .cut-header-word-del-btm {
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 125%;
+        }
+
+        .cut-header-word-price {
+            display: flex;
+            gap: 20px;
+            align-items: baseline;
+        }
+
+        .cut-header-word-price .cut-price-left {
+            font-style: normal;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .cut-header-word-price .cut-price-left p {
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .cut-header-word-price .cut-price-left span {
+            color: #FC0;
+            font-size: 42px;
+            font-weight: 800;
+        }
+
+        .cut-header-word-price .cut-price-left i {
+            font-size: 20px;
+            line-height: 125%;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .cut-header-word-price .cut-price-right {
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 300;
+        }
+
+        .cut-header-word-btn {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .cut-header-word-btn a {
+            text-decoration: none;
+            display: flex;
+            height: 45px;
+            min-width: 150px;
+            padding: 10px 32px;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            border-radius: 4px;
+            background: #FC0;
+            color: #000;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            text-transform: capitalize;
+        }
+
+        .cut-header-word-btn a span {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .cut-header-word-btn-return {
+            color: #FFF;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 125%;
+        }
+
+        .cut-header-word-btn-return span {
+            color: #FC0;
+            font-size: 24px;
+        }
+
+        .cut-header-word-down {
+            display: flex;
+            gap: 12px;
+            color: #FFF;
+        }
+
+        .cut-down-number-list {
+            display: flex;
+            gap: 5px;
+            color: #000;
+        }
+
+        .cut-down-number-item {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: -1.405px;
+            border-radius: 2px;
+            background: #FC0;
+            text-align: center;
+            font-style: normal;
+            line-height: 130%;
+            padding: 2px 6px;
+        }
+
+        .cut-down-number-item p {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 100%;
+        }
+
+        .cut-down-number-item span {
+            color: #000;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .cut-header-word-box {
+            display: flex;
+            padding: 14px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 204, 0, 0.15) 100%);
+        }
+
+        .cut-word-box-right {
+            color: #FFF;
+            text-align: center;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 130%;
+        }
+
+        @media screen and (max-width:1024px) {}
+
+        @media screen and (max-width:768px) {}
+    </style>
+    <div class="cut-header">
+        <!--   <video class="cut-video-background" autoplay muted loop playsinline webkit-playsinline>
+             <source src="https://www.apple.com.cn/105/media/us/mac/family/2025/59856fc1-d007-421a-90ee-734ddf3fd25d/anim/welcome/xlarge.mp4"
+                type="video/mp4">
+            <source src="/v/mac/home/ce/images/overview/welcome/welcome_startframe__fxbvhicpk0i2_xlarge.jpg" type="video/webm">
+
+        </video> -->
+        <div class="cut-header-content">
+            <div class="cut-header-word">
+                <p class="cut-header-word-subtitle">Revolutionary Knife Sharpening Experience:</p>
+                <p class="cut-header-word-title">Razor-Sharp in Just 2 Minutes! </p>
+                <span class="cut-header-word-id">Precision Kitchen Knife Sharpener (Patent No. US D1067745S)</span>
+                <div class="cut-header-word-del cut-mtp">
+                    <div class="cut-header-word-item">
+                        <div class="cut-header-word-del-top">
+                            <img src="https://cdn.shopify.com/s/files/1/0687/6128/8960/files/Precision_Kitchen_Knife_Sharpener1.png?v=1743313194"
+                                class="cut-svg" alt="330mm">
+                            <p>330mm</p>
+                        </div>
+                        <div class="cut-header-word-del-btm">Max Blade Compatibility with Full Metal Frame</div>
+                    </div>
+                    <div class="cut-header-word-item">
+                        <div class="cut-header-word-del-top">
+                            <img src="https://cdn.shopify.com/s/files/1/0687/6128/8960/files/Precision_Kitchen_Knife_Sharpener2.png?v=1743313194"
+                                class="cut-svg" alt="330mm">
+                            <p>330mm</p>
+                        </div>
+                        <div class="cut-header-word-del-btm">Max Blade Compatibility with Full Metal Frame</div>
+                    </div>
+                    <div class="cut-header-word-item">
+                        <div class="cut-header-word-del-top">
+                            <img src="https://cdn.shopify.com/s/files/1/0687/6128/8960/files/Precision_Kitchen_Knife_Sharpener1.png?v=1743313194"
+                                class="cut-svg" alt="330mm">
+                            <p>330mm</p>
+                        </div>
+                        <div class="cut-header-word-del-btm">Max Blade Compatibility with Full Metal Frame</div>
+                    </div>
+                    <div class="cut-header-word-item">
+                        <div class="cut-header-word-del-top">
+                            <img src="https://cdn.shopify.com/s/files/1/0687/6128/8960/files/Precision_Kitchen_Knife_Sharpener1.png?v=1743313194"
+                                class="cut-svg" alt="330mm">
+                            <p>330mm</p>
+                        </div>
+                        <div class="cut-header-word-del-btm">Max Blade Compatibility with Full Metal Frame</div>
+                    </div>
+                    <div class="cut-header-word-item">
+                        <div class="cut-header-word-del-top">
+                            <img src="https://cdn.shopify.com/s/files/1/0687/6128/8960/files/Precision_Kitchen_Knife_Sharpener1.png?v=1743313194"
+                                class="cut-svg" alt="330mm">
+                            <p>330mm</p>
+                        </div>
+                        <div class="cut-header-word-del-btm">Max Blade Compatibility with Full Metal Frame</div>
+                    </div>
+                </div>
+                <div class="cut-header-word-price cut-mtp">
+                    <div class="cut-price-left">
+                        <p>Early Bird: </p>
+                        <span><i>&nbsp; $</i>179</span>
+                    </div>
+                    <div class="cut-price-right">MSRP: $358</div>
+                </div>
+                <div class="cut-header-word-btn cut-mtp">
+                    <a href="#"><span>$1</span> Refundable</a>
+                    <p class="cut-header-word-btn-return"><span>Juy1 </span> Delivery.90-Day Return .1-Year Warranty</p>
+                </div>
+                <div class="cut-header-word-down cut-mtp">
+                    <div class="cut-header-word-box">
+                        <div class="cut-down-number-list">
+                            <div class="cut-down-number-item">
+                                <p>100</p>
+                                <span>piece</span>
+                            </div>
+                        </div>
+                        <p class="cut-word-box-right"> Early-Bird Spots</p>
+                    </div>
+                    <div class="cut-header-word-box">
+                        <div class="cut-down-number-list">
+                            <div class="cut-down-number-item">
+                                <p id="days">00</p>
+                                <span>Days</span>
+                            </div>
+                            <div class="cut-down-number-item">
+                                <p id="hours">00</p>
+                                <span>Hours</span>
+                            </div>
+                            <div class="cut-down-number-item">
+                                <p id="minutes">00</p>
+                                <span>Mins</span>
+                            </div>
+                            <div class="cut-down-number-item">
+                                <p id="seconds">00</p>
+                                <span>Secs</span>
+                            </div>
+                        </div>
+                        <p class="cut-word-box-right">Countdown</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cut-header-none"></div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            // 设置截止日期：2025年4月5日12:00:00
+            const endDate = new Date(2025, 3, 5, 12, 0, 0); // 注意月份是0-11，所以4月是3
+
+            // 更新倒计时函数
+            function updateCountdown() {
+                const now = new Date();
+                const distance = endDate - now;
+
+                // 计算时间差
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // 更新显示
+                $("#days").text(days.toString().padStart(2, '0'));
+                $("#hours").text(hours.toString().padStart(2, '0'));
+                $("#minutes").text(minutes.toString().padStart(2, '0'));
+                $("#seconds").text(seconds.toString().padStart(2, '0'));
+
+                // 倒计时结束处理
+                if (distance < 0) {
+                    clearInterval(countdownTimer);
+                    // $(".cut-down-number-list").html("<div style='color:red;font-size:2rem;'>倒计时已结束！</div>");
+                }
+            }
+
+            // 立即执行一次
+            updateCountdown();
+
+            // 设置定时器，每秒更新
+            const countdownTimer = setInterval(updateCountdown, 1000);
+        });
+    </script>
+</body>
+
+</html>
