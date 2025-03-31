@@ -36,7 +36,7 @@
             width: 100%;
             height: 100vh;
             position: relative;
-            background-color: #000;
+            /* background-color: #000; */
             display: flex;
             align-items: center;
             font-family: Assistant;
@@ -50,6 +50,12 @@
             height: 100%;
             object-fit: cover;
             z-index: -1;
+            transition: opacity 1.5s ease-in-out;
+            opacity: 1;
+        }
+
+        .cut-video-background.fade-out {
+            opacity: 0;
         }
 
         .cut-header-content {
@@ -286,12 +292,13 @@
         @media screen and (max-width:768px) {}
     </style>
     <div class="cut-header">
-        <!--   <video class="cut-video-background" autoplay muted loop playsinline webkit-playsinline>
-             <source src="https://www.apple.com.cn/105/media/us/mac/family/2025/59856fc1-d007-421a-90ee-734ddf3fd25d/anim/welcome/xlarge.mp4"
-                type="video/mp4">
-            <source src="/v/mac/home/ce/images/overview/welcome/welcome_startframe__fxbvhicpk0i2_xlarge.jpg" type="video/webm">
-
-        </video> -->
+        <!-- 添加第二个备用视频元素 -->
+        <video id="videoPlayer2" class="cut-video-background" playsinline muted autoplay preload="auto"
+            webkit-playsinline></video>
+        <video id="videoPlayer1" class="cut-video-background" playsinline muted autoplay preload="auto"
+            webkit-playsinline>
+            <source src="./video1.mp4" type="video/mp4">
+        </video>
         <div class="cut-header-content">
             <div class="cut-header-word">
                 <p class="cut-header-word-subtitle">Revolutionary Knife Sharpening Experience:</p>
@@ -421,6 +428,94 @@
             // 设置定时器，每秒更新
             const countdownTimer = setInterval(updateCountdown, 1000);
         });
+    </script>
+   <script>
+    $(document).ready(function () {
+        const videoList = ["./video1.mp4", "./video2.mp4", "./video3.mp4", "./video4.mp4"];
+        let currentVideoIndex = 0;  // 当前播放的视频索引
+        let isSwitching = false;
+        
+        const $videos = [$('#videoPlayer1'), $('#videoPlayer2')];
+        let activeIndex = 0;  // 当前活跃的视频元素索引（0或1）
+    
+        // 初始化设置
+        $videos[1].hide().removeClass('fade-out');
+    
+        function getNextVideoIndex() {
+            return (currentVideoIndex + 1) % videoList.length;
+        }
+    
+        async function switchVideo() {
+            if(isSwitching) return;
+            isSwitching = true;
+    
+            const nextVideoIndex = getNextVideoIndex();
+            const $currentVideo = $videos[activeIndex];
+            const $nextVideo = $videos[1 - activeIndex];
+    
+            console.log(`正在切换：${videoList[currentVideoIndex]} -> ${videoList[nextVideoIndex]}`);
+    
+            // 预加载下一个视频
+            $nextVideo[0].src = videoList[nextVideoIndex];
+            
+            try {
+                // 等待视频元数据加载
+                await new Promise((resolve, reject) => {
+                    $nextVideo[0].onloadedmetadata = resolve;
+                    $nextVideo[0].onerror = reject;
+                    $nextVideo[0].load();
+                });
+    
+                // 等待视频可播放
+                await new Promise(resolve => {
+                    if($nextVideo[0].readyState > 3) resolve();
+                    else $nextVideo[0].oncanplaythrough = resolve;
+                });
+    
+                // 启动淡出过渡
+                $currentVideo.addClass('fade-out');
+                
+                // 显示并播放新视频
+                $nextVideo.show()
+                    .removeClass('fade-out')
+                    [0].play()
+                    .catch(error => console.error('播放失败:', error));
+    
+                // 切换索引（关键修正）
+                currentVideoIndex = nextVideoIndex;
+                activeIndex = 1 - activeIndex;
+    
+                // 更新事件监听
+                updateEventListeners();
+    
+            } catch (error) {
+                console.error('视频切换失败:', error);
+            } finally {
+                // 重置当前视频状态
+                setTimeout(() => {
+                    $currentVideo[0].pause();
+                    $currentVideo.hide().removeClass('fade-out');
+                    isSwitching = false;
+                    console.log('切换完成');
+                }, 1500);
+            }
+        }
+    
+        // 动态更新事件监听（关键修正）
+        function updateEventListeners() {
+            $videos.forEach(($video, index) => {
+                $video.off('ended');
+                if(index === activeIndex) {
+                    $video.on('ended', switchVideo);
+                    console.log(`已为 ${videoList[currentVideoIndex]} 绑定结束事件`);
+                }
+            });
+        }
+    
+        // 初始设置
+        updateEventListeners();
+        console.log('初始视频加载完成');
+    });
     </script>
 </body>
 
