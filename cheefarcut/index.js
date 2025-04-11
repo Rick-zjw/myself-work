@@ -1,6 +1,6 @@
 $(document).ready(function () {
     //time down 
-    const endDate = new Date(2025, 3, 5, 12, 0, 0);
+    const endDate = new Date(2025, 8, 5, 12, 0, 0);
 
 
     function updateCountdown() {
@@ -28,7 +28,7 @@ $(document).ready(function () {
 
     // video play 
     const videoList = [
-        "https://cdn.shopify.com/videos/c/o/v/1e565b9eff4c4784a55a301aec4fc14f.mp4",
+        "https://cdn.shopify.com/videos/c/o/v/336156171833440c97daca1a5273eac8.mp4",
         "https://cdn.shopify.com/videos/c/o/v/8d85ec3d2fe646b78defbd70ae93233b.mp4",
         "https://cdn.shopify.com/videos/c/o/v/a0fb626826e340d9825174358b24ff35.mp4",
         "https://cdn.shopify.com/videos/c/o/v/1f50d1b1f51c4a14a4cce494ad01722a.mp4"
@@ -36,9 +36,12 @@ $(document).ready(function () {
 
     let currentVideoIndex = 0;
     let isSwitching = false;
+    let fadeTimeout;
+
     const $videos = [$('#videoPlayer1'), $('#videoPlayer2')];
     let activeIndex = 0;
 
+    // 初始化时隐藏第二个 video
     $videos[1].hide().removeClass('fade-out');
 
     function initVideoCover() {
@@ -51,11 +54,18 @@ $(document).ready(function () {
     }
 
     function startVideoPlayback() {
-        $videos[0][0].play().catch(error => {
-            $('body').one('click', function () {
+        $videos[0][0].play().catch(() => {
+            $('body').one('click', () => {
                 $videos[0][0].play();
             });
         });
+    }
+
+    function clearFadeTimeout() {
+        if (fadeTimeout) {
+            clearTimeout(fadeTimeout);
+            fadeTimeout = null;
+        }
     }
 
     async function switchVideo() {
@@ -80,25 +90,30 @@ $(document).ready(function () {
                 else $nextVideo[0].oncanplaythrough = resolve;
             });
 
+            // 清理状态，防止旧的残留
+            $nextVideo.removeClass('fade-out');
+
+            // 当前视频加上淡出动画
             $currentVideo.addClass('fade-out');
 
-            $nextVideo.show()
-                .removeClass('fade-out')
-            [0].play()
-                .catch(error => console.error(error));
+            // 播放下一段视频
+            $nextVideo.show()[0].play().catch(console.error);
 
             currentVideoIndex = nextVideoIndex;
             activeIndex = 1 - activeIndex;
             updateEventListeners();
 
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setTimeout(() => {
+            // 淡出完成后，暂停并隐藏旧视频
+            clearFadeTimeout();
+            fadeTimeout = setTimeout(() => {
                 $currentVideo[0].pause();
                 $currentVideo.hide().removeClass('fade-out');
                 isSwitching = false;
             }, 1500);
+
+        } catch (error) {
+            console.error('切换视频出错：', error);
+            isSwitching = false;
         }
     }
 
@@ -113,4 +128,5 @@ $(document).ready(function () {
 
     initVideoCover();
     updateEventListeners();
+
 });

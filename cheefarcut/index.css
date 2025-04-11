@@ -30,6 +30,12 @@
     opacity: 0;
 }
 
+.show-cover {
+ 
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
 .cut-header-content {
     max-width: 1280px;
     margin: 0 auto;
@@ -47,7 +53,7 @@
 }
 
 .cut-header-word {
-    max-width: 650px;
+    max-width: 700px;
 }
 
 
